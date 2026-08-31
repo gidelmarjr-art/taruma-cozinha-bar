@@ -1,0 +1,87 @@
+.cta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 460px;
+  scroll-margin-top: 90px;
+}
+
+.cta__photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 65%, var(--color-green-dark) 100%);
+}
+
+.cta__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cta__panel {
+  background: var(--color-green-dark);
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.cta__panel .eyebrow {
+  color: var(--color-gold);
+}
+
+.cta__panel h2 {
+  font-size: clamp(2.1rem, 4vw, 2.9rem);
+  margin-top: var(--space-xs);
+  color: var(--color-cream);
+}
+
+.cta__panel p {
+  color: rgba(250, 246, 236, 0.72);
+  max-width: 40ch;
+}
+
+.cta__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.cta__actions .btn-primary {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.cta__actions .btn-primary:hover {
+  background: var(--color-gold-dark);
+}
+
+.cta__ig {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-gold);
+  margin-top: var(--space-sm);
+}
+
+@media (max-width: 860px) {
+  .cta {
+    grid-template-columns: 1fr;
+  }
+  .cta__photo {
+    min-height: 260px;
+  }
+  .cta__photo::after {
+    background: linear-gradient(180deg, transparent 60%, var(--color-green-dark) 100%);
+  }
+  .cta__panel {
+    padding: var(--space-xl) var(--space-lg);
+  }
+}

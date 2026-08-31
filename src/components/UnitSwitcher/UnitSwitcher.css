@@ -1,0 +1,34 @@
+.unit-switcher {
+  display: inline-flex;
+  gap: 0.3rem;
+  padding: 0.3rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-paper-border);
+  border-radius: 999px;
+}
+
+.unit-switcher__btn {
+  border: none;
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.45em 1em;
+  border-radius: 999px;
+  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+
+.unit-switcher__btn--active {
+  background: var(--color-green);
+  color: var(--color-cream);
+}
+
+.unit-switcher--compact {
+  padding: 0.2rem;
+}
+
+.unit-switcher--compact .unit-switcher__btn {
+  font-size: 0.76rem;
+  padding: 0.35em 0.8em;
+}

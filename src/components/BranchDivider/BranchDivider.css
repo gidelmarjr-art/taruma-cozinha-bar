@@ -1,0 +1,31 @@
+.branch-divider {
+  width: 100%;
+  max-width: 400px;
+  margin: var(--space-lg) auto;
+  opacity: 0.85;
+}
+
+.branch-divider--flip {
+  transform: scaleX(-1);
+}
+
+.branch-divider svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.branch-divider__stem {
+  fill: none;
+  stroke: var(--color-leaf-light);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.branch-divider__berry {
+  fill: var(--color-wine-light);
+}
+
+.branch-divider__berry--brass {
+  fill: var(--color-brass);
+}

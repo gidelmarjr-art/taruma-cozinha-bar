@@ -1,0 +1,171 @@
+.quick-view__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 32, 21, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  animation: qvFadeIn 0.2s var(--ease-out);
+}
+
+@keyframes qvFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.quick-view {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  max-width: 720px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+
+.quick-view__close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(250, 246, 236, 0.9);
+  color: var(--color-ink);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-view__photo {
+  aspect-ratio: 4 / 5;
+}
+
+.quick-view__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.quick-view__body {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quick-view__body h3 {
+  font-size: 1.6rem;
+  margin-top: 0.2rem;
+}
+
+.quick-view__porcao {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-green-dark);
+}
+
+.quick-view__desc {
+  color: var(--color-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.quick-view__preco {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--color-ink);
+}
+
+.quick-view__actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: var(--space-sm) 0;
+}
+
+.quick-view__reviews {
+  border-top: 1px solid var(--color-paper-border);
+  padding-top: var(--space-sm);
+  margin-top: var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.quick-view__hint {
+  color: var(--color-ink-faint);
+  font-size: 0.88rem;
+}
+
+.quick-view__reviews ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.quick-view__reviews li {
+  border: 1px solid var(--color-paper-border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.quick-view__stars {
+  color: var(--color-gold);
+  font-size: 0.85rem;
+  display: block;
+}
+
+.quick-view__reviews li strong {
+  font-size: 0.9rem;
+}
+
+.quick-view__reviews li p {
+  color: var(--color-ink-soft);
+  margin-top: 0.2rem;
+}
+
+.quick-view__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quick-view__form input,
+.quick-view__form select,
+.quick-view__form textarea {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 0.6em 0.8em;
+  border: 1px solid var(--color-paper-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-alt);
+  color: var(--color-ink);
+}
+
+.quick-view__form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+@media (max-width: 640px) {
+  .quick-view {
+    grid-template-columns: 1fr;
+  }
+  .quick-view__photo {
+    aspect-ratio: 16 / 9;
+  }
+}

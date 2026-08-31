@@ -1,0 +1,117 @@
+.locations {
+  background: var(--color-bg-alt);
+}
+
+.locations__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.location-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-paper-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s var(--ease-out), transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.location-card:hover {
+  border-color: var(--color-green);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 36px rgba(42, 32, 21, 0.1);
+}
+
+.location-card__photo {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.location-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.location-card:hover .location-card__photo img {
+  transform: scale(1.06);
+}
+
+.location-card__body {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.location-card__header h3 {
+  font-size: 1.9rem;
+  margin-top: 0.3rem;
+}
+
+.location-card__address {
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  max-width: 32ch;
+}
+
+.location-card__hours {
+  margin: var(--space-xs) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.location-card__hours div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed var(--color-paper-border);
+}
+
+.location-card__hours dt {
+  color: var(--color-ink-faint);
+}
+
+.location-card__hours dd {
+  margin: 0;
+  text-align: right;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.location-card__phone {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-green-dark);
+}
+
+.location-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: var(--space-xs);
+}
+
+.location-card__maps {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-green-dark);
+  margin-top: 0.2rem;
+}
+
+.location-card__maps:hover {
+  color: var(--color-gold-dark);
+}
+
+@media (max-width: 780px) {
+  .locations__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,120 @@
+.about {
+  background: var(--color-bg-alt);
+}
+
+.about__intro {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-lg);
+  align-items: end;
+  margin-bottom: var(--space-xl);
+}
+
+.about__head {
+  margin-bottom: 0;
+}
+
+.about__accent-photo {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-paper-border);
+  box-shadow: 0 16px 36px rgba(42, 32, 21, 0.14);
+}
+
+.about__accent-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__steps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.about__steps::before {
+  content: '';
+  position: absolute;
+  top: 26px;
+  bottom: 26px;
+  left: 26px;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-green-light) 0,
+    var(--color-green-light) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+  opacity: 0.5;
+}
+
+.about__step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+}
+
+.about__step-marker {
+  position: relative;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-green);
+  background: var(--color-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about__step-marker span {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-green-dark);
+}
+
+.about__step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.4rem;
+}
+
+.about__step-body h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.about__step-body p {
+  color: var(--color-ink-soft);
+  font-size: 0.96rem;
+  max-width: 56ch;
+}
+
+@media (max-width: 860px) {
+  .about__intro {
+    grid-template-columns: 1fr;
+  }
+  .about__accent-photo {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 560px) {
+  .about__step {
+    grid-template-columns: 40px 1fr;
+    gap: var(--space-sm);
+  }
+  .about__step-marker {
+    width: 40px;
+    height: 40px;
+  }
+  .about__steps::before {
+    left: 20px;
+  }
+}

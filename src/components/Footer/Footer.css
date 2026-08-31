@@ -1,0 +1,70 @@
+.footer {
+  background: var(--color-ink);
+  padding-top: var(--space-xl);
+}
+
+.footer .eyebrow {
+  color: var(--color-gold);
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-lg);
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.footer__brand img {
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+}
+
+.footer__logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-cream);
+}
+
+.footer__cols {
+  display: flex;
+  gap: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.footer__cols > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer__cols ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: rgba(250, 246, 236, 0.7);
+  font-size: 0.92rem;
+}
+
+.footer__cols a:hover {
+  color: var(--color-gold);
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(250, 246, 236, 0.12);
+  padding: var(--space-md) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgba(250, 246, 236, 0.42);
+}
