@@ -24,7 +24,7 @@
   max-height: 88vh;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   position: relative;
 }
 
@@ -56,6 +56,7 @@
 }
 
 .quick-view__body {
+  min-width: 0;
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
@@ -70,7 +71,7 @@
 .quick-view__porcao {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: var(--color-green-dark);
+  color: var(--color-wine-dark);
 }
 
 .quick-view__desc {
@@ -147,6 +148,8 @@
 .quick-view__form input,
 .quick-view__form select,
 .quick-view__form textarea {
+  width: 100%;
+  min-width: 0;
   font-family: var(--font-body);
   font-size: 0.9rem;
   padding: 0.6em 0.8em;

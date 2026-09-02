@@ -4,7 +4,7 @@
 
 .about__intro {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: var(--space-lg);
   align-items: end;
   margin-bottom: var(--space-xl);
@@ -43,8 +43,8 @@
   width: 1px;
   background: repeating-linear-gradient(
     to bottom,
-    var(--color-green-light) 0,
-    var(--color-green-light) 6px,
+    var(--color-wine-light) 0,
+    var(--color-wine-light) 6px,
     transparent 6px,
     transparent 14px
   );
@@ -53,7 +53,7 @@
 
 .about__step {
   display: grid;
-  grid-template-columns: 52px 1fr;
+  grid-template-columns: 52px minmax(0, 1fr);
   gap: var(--space-md);
   padding: var(--space-md) 0;
 }
@@ -64,7 +64,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  border: 1.5px solid var(--color-green);
+  border: 1.5px solid var(--color-wine);
   background: var(--color-bg-alt);
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--color-green-dark);
+  color: var(--color-wine-dark);
 }
 
 .about__step-body {
@@ -107,7 +107,7 @@
 
 @media (max-width: 560px) {
   .about__step {
-    grid-template-columns: 40px 1fr;
+    grid-template-columns: 40px minmax(0, 1fr);
     gap: var(--space-sm);
   }
   .about__step-marker {

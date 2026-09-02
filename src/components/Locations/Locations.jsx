@@ -12,7 +12,7 @@ function Locations() {
       <div className="container">
         <div className="section-head">
           <span className="eyebrow">Unidades</span>
-          <h2>Sudoeste ou Gama — reserve na hora</h2>
+          <h2>Sudoeste ou Gama 🔥 reserve na hora</h2>
           <p>
             Endereço, horário, reserva por WhatsApp e delivery por iFood de
             cada unidade, sem precisar sair desta página.

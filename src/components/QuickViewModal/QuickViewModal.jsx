@@ -84,7 +84,7 @@ function QuickViewModal({ produto, unidade, onClose }) {
               <span className="eyebrow">Avaliações</span>
               {loading && <p className="quick-view__hint">Carregando...</p>}
               {!loading && avaliacoes.length === 0 && (
-                <p className="quick-view__hint">Ainda sem avaliações — seja o primeiro a avaliar.</p>
+                <p className="quick-view__hint">Ainda sem avaliações 🔥 seja o primeiro a avaliar.</p>
               )}
               <ul>
                 {avaliacoes.map((a) => (

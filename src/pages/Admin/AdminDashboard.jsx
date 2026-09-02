@@ -5,7 +5,7 @@ import { useUnidades } from '../../hooks/useUnidades'
 import { useCategorias } from '../../hooks/useCategorias'
 import { useAdminProdutos } from '../../hooks/useAdminProdutos'
 import { useAdminAvaliacoes } from '../../hooks/useAdminAvaliacoes'
-import ProductForm from './ProductForm'
+import ProductFormModal from './ProductFormModal'
 import './Admin.css'
 
 function AdminDashboard() {
@@ -67,7 +67,7 @@ function AdminDashboard() {
         </div>
 
         {aba === 'produtos' && unidadeIdAtiva && (
-          <ProdutosPanel unidadeId={unidadeIdAtiva} categorias={categorias} />
+          <ProdutosPanel unidadeId={unidadeIdAtiva} unidadeNome={unidadeAtiva?.nome} categorias={categorias} />
         )}
         {aba === 'avaliacoes' && <AvaliacoesPanel />}
       </div>
@@ -75,14 +75,15 @@ function AdminDashboard() {
   )
 }
 
-function ProdutosPanel({ unidadeId, categorias }) {
+function ProdutosPanel({ unidadeId, unidadeNome, categorias }) {
   const { produtos, loading, criar, atualizar, excluir } = useAdminProdutos(unidadeId)
   const [editando, setEditando] = useState(null) // null = fechado, {} = novo, {...} = editando
   const [salvando, setSalvando] = useState(false)
 
   async function handleSalvar(dados) {
     setSalvando(true)
-    const resultado = editando?.id ? await atualizar(editando.id, dados) : await criar(dados)
+    const payload = { ...dados, unidade_id: unidadeId }
+    const resultado = editando?.id ? await atualizar(editando.id, payload) : await criar(payload)
     setSalvando(false)
     if (!resultado.error) setEditando(null)
   }
@@ -102,17 +103,14 @@ function ProdutosPanel({ unidadeId, categorias }) {
       </div>
 
       {editando && (
-        <div className="admin-panel__form-box">
-          <h3>{editando.id ? 'Editar prato' : 'Novo prato'}</h3>
-          <ProductForm
-            unidadeId={unidadeId}
-            categorias={categorias}
-            produtoEditando={editando.id ? editando : null}
-            onSalvar={handleSalvar}
-            onCancelar={() => setEditando(null)}
-            salvando={salvando}
-          />
-        </div>
+        <ProductFormModal
+          unidadeNome={unidadeNome}
+          categorias={categorias}
+          produtoEditando={editando.id ? editando : null}
+          onSalvar={handleSalvar}
+          onCancelar={() => setEditando(null)}
+          salvando={salvando}
+        />
       )}
 
       {loading && <p className="admin-panel__hint">Carregando produtos...</p>}
@@ -171,7 +169,7 @@ function AvaliacoesPanel() {
           <div className="admin-table__row" key={a.id}>
             <div className="admin-table__info">
               <strong>
-                {a.nome_cliente} — {'★'.repeat(a.nota)}
+                {a.nome_cliente} 🔥 {'★'.repeat(a.nota)}
                 {'☆'.repeat(5 - a.nota)}
               </strong>
               <span>Prato: {a.produtos?.nome || '—'}</span>

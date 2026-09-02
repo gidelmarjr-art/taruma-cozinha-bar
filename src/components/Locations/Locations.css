@@ -4,7 +4,7 @@
 
 .locations__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-md);
 }
 
@@ -19,7 +19,7 @@
 }
 
 .location-card:hover {
-  border-color: var(--color-green);
+  border-color: var(--color-wine);
   transform: translateY(-4px);
   box-shadow: 0 20px 36px rgba(42, 32, 21, 0.1);
 }
@@ -89,7 +89,7 @@
 .location-card__phone {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--color-green-dark);
+  color: var(--color-wine-dark);
 }
 
 .location-card__actions {
@@ -102,7 +102,7 @@
 .location-card__maps {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--color-green-dark);
+  color: var(--color-wine-dark);
   margin-top: 0.2rem;
 }
 

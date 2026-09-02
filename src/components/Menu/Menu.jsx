@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useUnitStore } from '../../store/useUnitStore'
 import { useUnidades } from '../../hooks/useUnidades'
 import { useProdutos } from '../../hooks/useProdutos'
@@ -42,20 +43,20 @@ function Menu() {
         </div>
 
         <div className="menu__links">
-          <a className="menu__link-card" href={active.link_cardapio_pdf} target="_blank" rel="noreferrer">
+          <Link className="menu__link-card" to={`/cardapio?unidade=${active.slug}`}>
             <span className="eyebrow">Cardápio</span>
-            <strong>Pratos &amp; porções — {active.nome}</strong>
+            <strong>Pratos &amp; porções 🔥 {active.nome}</strong>
             <span className="menu__link-arrow">Ver cardápio completo →</span>
-          </a>
-          <a className="menu__link-card" href={active.link_drinks_pdf} target="_blank" rel="noreferrer">
+          </Link>
+          <Link className="menu__link-card" to={`/cardapio?unidade=${active.slug}&tipo=drink&categoria=drinks`}>
             <span className="eyebrow">Bar</span>
-            <strong>Cartela de drinks — {active.nome}</strong>
+            <strong>Cartela de drinks 🔥 {active.nome}</strong>
             <span className="menu__link-arrow">Ver drinks →</span>
-          </a>
+          </Link>
         </div>
 
         <div className="menu__highlights">
-          <span className="eyebrow menu__highlights-label">Favoritos da casa — {active.nome}</span>
+          <span className="eyebrow menu__highlights-label">Favoritos da casa 🔥 {active.nome}</span>
 
           {loading && <p className="menu__loading">Carregando cardápio...</p>}
 

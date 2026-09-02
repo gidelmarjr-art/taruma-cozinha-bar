@@ -17,7 +17,7 @@
 
 .branch-divider__stem {
   fill: none;
-  stroke: var(--color-leaf-light);
+  stroke: var(--color-wine-light);
   stroke-width: 1.4;
   stroke-linecap: round;
 }

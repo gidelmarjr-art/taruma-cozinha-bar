@@ -19,6 +19,24 @@ O site tem **dois modos**:
 Isso permite abrir, mexer e fazer deploy do projeto imediatamente, sem
 depender do banco estar pronto.
 
+## Identidade visual e correções recentes
+
+- **Cores**: vinho (`#7a1b23`) da logo oficial é a cor principal de interação
+  em todo o site (botões, links ativos, destaques); dourado é o acento
+  secundário. Fundo claro/creme mantido.
+- **Marcador visual**: 🔥 substitui o emoji de árvore usado antes nos
+  "eyebrows" (rótulos pequenos acima dos títulos), e também substitui os
+  travessões estilísticos (—) usados como separador dentro de frases e
+  títulos em todo o site. Hífens que fazem parte de formatação (endereço
+  "Brasília - DF", telefone, CEP) **não** foram alterados — só os
+  travessões usados como separador de frase. Se alguma dessas trocas não
+  ficou como você esperava, me avisa que ajusto pontualmente.
+- **Bug do modal cortado**: corrigido — era um estouro de CSS Grid (colunas
+  sem `minmax(0, 1fr)`, que deixava elementos internos como um `<select>`
+  forçarem a grade a ultrapassar a largura do container). Também adicionei
+  `overflow-x: hidden` global como proteção extra contra esse tipo de corte,
+  especialmente relevante em navegadores embutidos (WhatsApp, Instagram).
+
 ## 1. Rodando localmente
 
 ```bash
@@ -93,22 +111,99 @@ src/
       AdminLogin.jsx          tela de login
       ProtectedRoute.jsx      bloqueia /admin sem sessão
       AdminDashboard.jsx      painel: cardápio (CRUD) + avaliações (moderação)
-      ProductForm.jsx         formulário de criar/editar prato com upload de foto
+      ProductFormModal.jsx    modal de criar/editar prato (upload ou link de imagem)
 
-  App.jsx                 rotas: "/" (site), "/admin/login", "/admin"
+  App.jsx                 rotas: "/" (site), "/cardapio", "/admin/login", "/admin"
 ```
+
+## Cardápio completo (`/cardapio`)
+
+Os botões "Ver cardápio completo" e "Ver drinks" (na seção Cardápio da home)
+não apontam mais para o PDF/site externo (dguests.com.br) — eles levam para
+`/cardapio?unidade=sudoeste` (ou `gama`), uma página dentro do próprio site
+que lista **todos** os produtos daquela unidade, agrupados por categoria,
+puxando dos mesmos dados que o painel admin gerencia.
+
+⚠️ Não consegui migrar automaticamente os itens do cardápio antigo
+(dguests.com.br) porque é um site que carrega o conteúdo via JavaScript —
+não é possível extrair o texto por scraping simples. A página `/cardapio`
+já está pronta e funcional; os pratos reais precisam ser cadastrados pelo
+painel `/admin` (ou me envie a lista e eu populo o `seed.js` direto). Até lá,
+uma unidade sem produtos cadastrados mostra uma mensagem amigável com botão
+de WhatsApp, em vez de aparecer vazia/quebrada.
+
+### Categorias reais + alternador Comida/Drinks
+
+A partir do print que você mandou do sistema atual, recriei a taxonomia real
+de categorias do cardápio (21 categorias: Entradas, Saladas, Petiscos para
+Compartilhar, Pastéis Tarumã, Combinados, Risotos e Massas, Camarões/Peixes/
+Moquecas/Carnes para Compartilhar, Filé Mignon, Sobremesas, Promoções, e do
+lado de bebidas: Bebidas, Sucos, Cervejas, Destilados, Drinks, Caipifrutas)
+em `src/data/seed.js` e `supabase/schema.sql`. Cada categoria tem um campo
+`tipo: 'comida' | 'drink'`.
+
+A página `/cardapio` agora tem:
+- Um alternador **Comida / Drinks** no topo
+- Pills clicáveis com todas as categorias daquele tipo (inclusive as que
+  ainda não têm produto cadastrado — clicar nelas mostra o aviso de "ainda
+  sendo cadastrado" em vez de sumir do menu)
+- Tudo refletido na URL (`?tipo=drink&categoria=caipifrutas`), então dá pra
+  compartilhar o link direto de uma categoria específica
+
+Os 4 produtos de exemplo foram remapeados pra essa taxonomia nova (o
+"Prato executivo da casa" que estava em "Pratos Principais" agora está em
+"Pratos Individuais", que é o nome real da categoria).
+
+## Efeito de revelação de texto (GSAP)
+
+`src/components/TextBlockAnimation/` — efeito de "bloco varrendo o texto"
+usado no título do Hero, do "Sobre" e do CTA final. Usa `gsap` +
+`@gsap/react` (SplitText + ScrollTrigger, gratuitos desde que a GreenSock
+foi comprada pela Webflow). Para usar em outro título:
+
+```jsx
+<TextBlockAnimation blockColor="var(--color-green)">
+  <h2>Seu título aqui</h2>
+</TextBlockAnimation>
+```
+
+`animateOnScroll={false}` faz disparar assim que a página carrega (usado no
+Hero); por padrão, dispara quando o elemento entra 85% da tela ao rolar.
+
+⚠️ Esse pacote (gsap + SplitText + ScrollTrigger) é relativamente pesado —
+o bundle principal ficou acima do limite recomendado de 500kB. As páginas
+de admin já carregam separadas (lazy load) para não pesar pra quem só visita
+o site público, mas se isso incomodar a performance no futuro, dá pra
+avaliar carregar o GSAP sob demanda também.
 
 ## Painel administrativo (`/admin`)
 
 Depois de logar:
 
 - **Cardápio**: escolha a unidade no topo, veja todos os pratos dela
-  (inclusive os ocultos), crie um novo prato, edite ou exclua. O upload de
-  foto vai direto pro Supabase Storage. Os três toggles (Favorito da casa,
-  Prato da semana, Disponível no site) controlam onde o prato aparece na
-  landing page.
+  (inclusive os ocultos), crie um novo prato, edite ou exclua. O botão
+  "+ Novo prato" abre um modal com abas pra escolher a fonte da imagem
+  (enviar arquivo → Supabase Storage, ou colar um link direto). Os três
+  chips (Favorito da casa, Prato da semana, Disponível no site) controlam
+  onde o prato aparece na landing page.
 - **Avaliações**: toda avaliação enviada pelos clientes chega pendente.
   Aqui a gerência aprova (passa a aparecer no site) ou exclui.
+
+### Sobre o design do painel
+
+Foi pedido pra usar um componente de referência baseado em **shadcn/ui +
+Tailwind CSS + TypeScript**. Esse projeto usa Vite + JavaScript + CSS puro
+(decisão tomada desde o início do projeto) — então, em vez de instalar
+Tailwind/shadcn (o que criaria dois sistemas de design concorrentes dentro
+do mesmo site), trouxe o *padrão de interação* do componente de referência
+(modal com abas para a fonte da imagem, cabeçalho com ícone, chips de
+status) para o nosso CSS já existente.
+
+Se no futuro fizer sentido migrar o projeto inteiro para Tailwind + shadcn +
+TypeScript, é possível — mas é uma migração grande (converter todo CSS
+existente, adicionar `tsconfig.json`, configurar path alias `@/*`, converter
+`.jsx` para `.tsx`) que vale ser feita como projeto à parte, não misturada
+com o sistema atual.
 
 ## Coisas que ficaram fora do escopo desta entrega
 
@@ -121,3 +216,7 @@ Depois de logar:
   tela no painel pra criar/editar categorias.
 - **Envio de convite por e-mail** para novos usuários do painel: hoje o
   usuário é criado manualmente em Authentication → Users.
+- **Itens reais do cardápio**: só os 4 pratos de exemplo (já cadastrados
+  antes) existem no `seed.js`, todos na unidade Sudoeste. A unidade Gama
+  está sem nenhum produto cadastrado — cadastre pelo `/admin` ou me envie a
+  lista completa.

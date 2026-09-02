@@ -25,13 +25,13 @@
 }
 
 .menu__tab--active {
-  background: var(--color-green);
+  background: var(--color-wine);
   color: var(--color-cream);
 }
 
 .menu__links {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-sm);
   margin-bottom: var(--space-xl);
 }
@@ -48,7 +48,7 @@
 }
 
 .menu__link-card:hover {
-  border-color: var(--color-green);
+  border-color: var(--color-wine);
   transform: translateY(-3px);
 }
 
@@ -61,7 +61,7 @@
 .menu__link-arrow {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: var(--color-green-dark);
+  color: var(--color-wine-dark);
   margin-top: 0.3rem;
 }
 
@@ -72,7 +72,7 @@
 
 .menu__highlights-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-md);
 }
 
@@ -143,7 +143,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-green-dark);
+  color: var(--color-wine-dark);
   font-weight: 600;
 }
 
@@ -161,7 +161,7 @@
 
 @media (max-width: 900px) {
   .menu__highlights-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: var(--space-lg);
   }
   .menu__dish--offset {

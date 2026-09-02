@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { social } from '../../data/seed'
 import { useUnidades } from '../../hooks/useUnidades'
 import ReservationModal from '../ReservationModal/ReservationModal'
+import TextBlockAnimation from '../TextBlockAnimation/TextBlockAnimation'
 import './CTA.css'
 
 function CTA() {
@@ -16,12 +17,14 @@ function CTA() {
 
       <div className="cta__panel">
         <span className="eyebrow">Reserve agora</span>
-        <h2>
-          Escolha a unidade
-          <br />e garanta sua mesa
-        </h2>
+        <TextBlockAnimation blockColor="var(--color-gold)">
+          <h2>
+            Escolha a unidade
+            <br />e garanta sua mesa
+          </h2>
+        </TextBlockAnimation>
         <p>
-          Reserva direto pelo WhatsApp — sem fila, sem espera. Escolha a casa
+          Reserva direto pelo WhatsApp 🔥 sem fila, sem espera. Escolha a casa
           mais perto de você.
         </p>
         <div className="cta__actions">

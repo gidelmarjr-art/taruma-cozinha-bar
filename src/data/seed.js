@@ -9,7 +9,7 @@ export const seedUnidades = [
     slug: 'sudoeste',
     nome: 'Sudoeste',
     tagline: 'A unidade original, no coração do Sudoeste',
-    endereco: 'SIG, Quadra 6, Lote 2330 — Sudoeste, Brasília - DF',
+    endereco: 'SIG, Quadra 6, Lote 2330 🔥 Sudoeste, Brasília - DF',
     telefone: '+55 61 99845-6208',
     whatsapp_url: 'https://taruma.supersal.com.br/wppsudoeste',
     link_ifood: 'https://taruma.supersal.com.br/ifoodsudoeste',
@@ -27,7 +27,7 @@ export const seedUnidades = [
     slug: 'gama',
     nome: 'Gama',
     tagline: 'A segunda casa do Tarumã, no Gama',
-    endereco: 'St. Central, Área Especial 6 — Gama, Brasília - DF',
+    endereco: 'St. Central, Área Especial 6 🔥 Gama, Brasília - DF',
     telefone: null,
     whatsapp_url: 'https://taruma.supersal.com.br/wppgama',
     link_ifood: 'https://taruma.supersal.com.br/ifoodgama',
@@ -39,12 +39,30 @@ export const seedUnidades = [
   },
 ]
 
+// Taxonomia real do cardápio do Tarumã (a partir do sistema atual deles).
+// `tipo` separa Comida de Drink pro alternador da página /cardapio.
 export const seedCategorias = [
-  { id: 'entradas', slug: 'entradas', nome: 'Entradas', ordem: 1 },
-  { id: 'pratos', slug: 'pratos', nome: 'Pratos Principais', ordem: 2 },
-  { id: 'petiscos', slug: 'petiscos', nome: 'Petiscos', ordem: 3 },
-  { id: 'drinks', slug: 'drinks', nome: 'Drinks', ordem: 4 },
-  { id: 'sobremesas', slug: 'sobremesas', nome: 'Sobremesas', ordem: 5 },
+  { id: 'queridinhos', slug: 'queridinhos', nome: 'Queridinhos Tarumã (seg a sex, almoço e jantar)', ordem: 1, tipo: 'comida' },
+  { id: 'entradas', slug: 'entradas', nome: 'Entradas', ordem: 2, tipo: 'comida' },
+  { id: 'saladas', slug: 'saladas', nome: 'Saladas', ordem: 3, tipo: 'comida' },
+  { id: 'petiscos', slug: 'petiscos', nome: 'Petiscos para Compartilhar', ordem: 4, tipo: 'comida' },
+  { id: 'pasteis', slug: 'pasteis', nome: 'Pastéis Tarumã', ordem: 5, tipo: 'comida' },
+  { id: 'combinados', slug: 'combinados', nome: 'Combinados, para Dividir', ordem: 6, tipo: 'comida' },
+  { id: 'risotos-massas', slug: 'risotos-massas', nome: 'Risotos e Massas', ordem: 7, tipo: 'comida' },
+  { id: 'pratos-individuais', slug: 'pratos-individuais', nome: 'Pratos Individuais', ordem: 8, tipo: 'comida' },
+  { id: 'camaroes', slug: 'camaroes', nome: 'Camarões para Compartilhar', ordem: 9, tipo: 'comida' },
+  { id: 'peixes', slug: 'peixes', nome: 'Peixes para Compartilhar', ordem: 10, tipo: 'comida' },
+  { id: 'moquecas', slug: 'moquecas', nome: 'Moquecas para Compartilhar', ordem: 11, tipo: 'comida' },
+  { id: 'carnes', slug: 'carnes', nome: 'Carnes para Compartilhar', ordem: 12, tipo: 'comida' },
+  { id: 'file-mignon', slug: 'file-mignon', nome: 'Pratos de Filé Mignon para Compartilhar', ordem: 13, tipo: 'comida' },
+  { id: 'sobremesas', slug: 'sobremesas', nome: 'Sobremesas', ordem: 14, tipo: 'comida' },
+  { id: 'promocoes', slug: 'promocoes', nome: 'Promoções Tarumã', ordem: 15, tipo: 'comida' },
+  { id: 'bebidas', slug: 'bebidas', nome: 'Bebidas', ordem: 16, tipo: 'drink' },
+  { id: 'sucos', slug: 'sucos', nome: 'Sucos', ordem: 17, tipo: 'drink' },
+  { id: 'cervejas', slug: 'cervejas', nome: 'Cervejas', ordem: 18, tipo: 'drink' },
+  { id: 'destilados', slug: 'destilados', nome: 'Destilados', ordem: 19, tipo: 'drink' },
+  { id: 'drinks', slug: 'drinks', nome: 'Drinks', ordem: 20, tipo: 'drink' },
+  { id: 'caipifrutas', slug: 'caipifrutas', nome: 'Caipifrutas', ordem: 21, tipo: 'drink' },
 ]
 
 export const seedProdutos = [
@@ -64,7 +82,7 @@ export const seedProdutos = [
   {
     id: 'prato-executivo',
     unidade_id: 'sudoeste',
-    categoria_id: 'pratos',
+    categoria_id: 'pratos-individuais',
     nome: 'Prato executivo da casa',
     descricao: 'Carne no ponto, arroz, banana da terra e salada',
     preco: null,

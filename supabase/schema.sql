@@ -39,7 +39,8 @@ create table if not exists categorias (
   id uuid primary key default gen_random_uuid(),
   nome text not null,
   slug text not null unique,
-  ordem int not null default 0
+  ordem int not null default 0,
+  tipo text not null default 'comida' check (tipo in ('comida', 'drink'))
 );
 
 create table if not exists produtos (
@@ -182,12 +183,29 @@ values
 )
 on conflict (slug) do nothing;
 
-insert into categorias (nome, slug, ordem) values
-  ('Entradas', 'entradas', 1),
-  ('Pratos Principais', 'pratos', 2),
-  ('Petiscos', 'petiscos', 3),
-  ('Drinks', 'drinks', 4),
-  ('Sobremesas', 'sobremesas', 5)
+-- Taxonomia real do cardápio do Tarumã (a partir do sistema atual deles).
+insert into categorias (nome, slug, ordem, tipo) values
+  ('Queridinhos Tarumã (seg a sex, almoço e jantar)', 'queridinhos', 1, 'comida'),
+  ('Entradas', 'entradas', 2, 'comida'),
+  ('Saladas', 'saladas', 3, 'comida'),
+  ('Petiscos para Compartilhar', 'petiscos', 4, 'comida'),
+  ('Pastéis Tarumã', 'pasteis', 5, 'comida'),
+  ('Combinados, para Dividir', 'combinados', 6, 'comida'),
+  ('Risotos e Massas', 'risotos-massas', 7, 'comida'),
+  ('Pratos Individuais', 'pratos-individuais', 8, 'comida'),
+  ('Camarões para Compartilhar', 'camaroes', 9, 'comida'),
+  ('Peixes para Compartilhar', 'peixes', 10, 'comida'),
+  ('Moquecas para Compartilhar', 'moquecas', 11, 'comida'),
+  ('Carnes para Compartilhar', 'carnes', 12, 'comida'),
+  ('Pratos de Filé Mignon para Compartilhar', 'file-mignon', 13, 'comida'),
+  ('Sobremesas', 'sobremesas', 14, 'comida'),
+  ('Promoções Tarumã', 'promocoes', 15, 'comida'),
+  ('Bebidas', 'bebidas', 16, 'drink'),
+  ('Sucos', 'sucos', 17, 'drink'),
+  ('Cervejas', 'cervejas', 18, 'drink'),
+  ('Destilados', 'destilados', 19, 'drink'),
+  ('Drinks', 'drinks', 20, 'drink'),
+  ('Caipifrutas', 'caipifrutas', 21, 'drink')
 on conflict (slug) do nothing;
 
 -- Produtos de exemplo (favoritos atuais), vinculados à unidade Sudoeste
@@ -203,7 +221,7 @@ select
 from (
   values
     ('entradas', 'Bruschetta de camarão', 'Pão crocante, camarão na manteiga e um toque de pimenta', 'Serve 2 pessoas', '/images/bruschetta-camarao.jpg'),
-    ('pratos', 'Prato executivo da casa', 'Carne no ponto, arroz, banana da terra e salada', 'Serve 1 pessoa', '/images/prato-executivo.jpg'),
+    ('pratos-individuais', 'Prato executivo da casa', 'Carne no ponto, arroz, banana da terra e salada', 'Serve 1 pessoa', '/images/prato-executivo.jpg'),
     ('petiscos', 'Fritas com molho da casa', 'Batata frita coberta com molho cremoso, pra dividir na mesa', 'Serve 2 a 3 pessoas', '/images/fritas-molho.jpg'),
     ('sobremesas', 'Brownie com sorvete', 'Quentinho, com bola de sorvete e calda de chocolate', 'Serve 1 pessoa', '/images/brownie-sorvete.jpg')
 ) as p(categoria_slug, nome, descricao, porcao, imagem_url)

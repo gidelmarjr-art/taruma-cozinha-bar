@@ -185,7 +185,7 @@
 }
 
 .admin__tab--active {
-  background: var(--color-green);
+  background: var(--color-wine);
   color: var(--color-cream);
 }
 
@@ -208,17 +208,71 @@
   font-size: 0.9rem;
 }
 
-.admin-panel__form-box {
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-paper-border);
-  border-radius: var(--radius-md);
+/* ---------- Modal de produto ---------- */
+.admin-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 32, 21, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--space-md);
-  margin-bottom: var(--space-lg);
 }
 
-.admin-panel__form-box h3 {
-  font-size: 1.1rem;
-  margin-bottom: var(--space-sm);
+.admin-modal {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  position: relative;
+}
+
+.admin-modal__close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-bg-alt);
+  color: var(--color-ink);
+  font-size: 1rem;
+}
+
+.admin-modal__header {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+  padding-right: 2rem;
+}
+
+.admin-modal__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-wine);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.admin-modal__header h2 {
+  font-size: 1.25rem;
+}
+
+.admin-modal__header p {
+  color: var(--color-ink-soft);
+  font-size: 0.88rem;
+  margin-top: 0.25rem;
 }
 
 /* ---------- Formulário de produto ---------- */
@@ -251,7 +305,7 @@
 
 .admin-form__row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.6rem;
 }
 
@@ -266,25 +320,102 @@
 }
 
 .admin-form__preview {
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   object-fit: cover;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-paper-border);
+  margin-top: 0.5rem;
 }
 
+/* ---------- Abas de fonte da imagem (upload / link) ---------- */
+.admin-form__image {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-form__image-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.admin-form__image-tabs {
+  display: inline-flex;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-paper-border);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.admin-form__image-tab {
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.4em 0.9em;
+  border-radius: 999px;
+  color: var(--color-ink-soft);
+}
+
+.admin-form__image-tab--active {
+  background: var(--color-wine);
+  color: var(--color-cream);
+}
+
+.admin-form__image-body {
+  background: var(--color-bg-alt);
+  border: 1px dashed var(--color-paper-border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.admin-form__image-body input {
+  background: var(--color-bg);
+}
+
+/* ---------- Chips de status (favorito / semana / disponível) ---------- */
 .admin-form__toggles {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  padding: 0.6rem 0;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
 }
 
-.admin-form__toggle {
+.admin-form__chip {
   flex-direction: row !important;
   align-items: center;
   gap: 0.4rem !important;
   font-weight: 500 !important;
+  font-size: 0.82rem !important;
+  padding: 0.4em 0.8em;
+  border-radius: 999px;
+  border: 1px solid var(--color-paper-border);
+  background: var(--color-bg-alt);
+  color: var(--color-ink-soft);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.admin-form__chip--active {
+  background: var(--color-wine-tint);
+  border-color: var(--color-wine);
+  color: var(--color-wine-dark);
+}
+
+.admin-form__chip--active.admin-form__chip--gold {
+  background: var(--color-gold-tint);
+  border-color: var(--color-gold);
+  color: var(--color-gold-dark);
+}
+
+.admin-form__chip input {
+  margin: 0;
 }
 
 .admin-form__actions {
@@ -357,8 +488,8 @@
   letter-spacing: 0.04em;
   padding: 0.2em 0.6em;
   border-radius: 999px;
-  background: var(--color-green-tint);
-  color: var(--color-green-dark);
+  background: var(--color-wine-tint);
+  color: var(--color-wine-dark);
 }
 
 .admin-badge--gold {

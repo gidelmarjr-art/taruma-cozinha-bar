@@ -9,7 +9,7 @@ function Gallery() {
           <span className="eyebrow">No dia a dia da casa</span>
           <h2>O melhor do Tarumã está na mesa</h2>
           <p>
-            Fotos do salão, dos pratos e dos drinks saem primeiro no Instagram —
+            Fotos do salão, dos pratos e dos drinks saem primeiro no Instagram 🔥
             acompanhe {social.instagramHandle} para ver o dia a dia das duas unidades.
           </p>
           <a className="btn btn-outline gallery__ig-link" href={social.instagram} target="_blank" rel="noreferrer">

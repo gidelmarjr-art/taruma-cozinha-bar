@@ -55,7 +55,7 @@ function ReservationModal({ unidades, unidadeInicial, onClose }) {
         <span className="eyebrow">Reservar mesa</span>
         <h3>Vamos garantir sua mesa</h3>
         <p className="reservation-modal__hint">
-          Preencha os dados — você confirma direto pelo WhatsApp da unidade escolhida.
+          Preencha os dados 🔥 você confirma direto pelo WhatsApp da unidade escolhida.
         </p>
 
         <form onSubmit={handleSubmit} className="reservation-modal__form">

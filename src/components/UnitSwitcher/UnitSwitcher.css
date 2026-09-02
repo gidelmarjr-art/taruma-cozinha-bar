@@ -20,7 +20,7 @@
 }
 
 .unit-switcher__btn--active {
-  background: var(--color-green);
+  background: var(--color-wine);
   color: var(--color-cream);
 }
 

@@ -21,7 +21,7 @@
 
 .gallery__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-template-rows: repeat(3, 160px);
   grid-template-areas:
     'a a b c'
@@ -59,7 +59,7 @@
 
 @media (max-width: 860px) {
   .gallery__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(5, 140px);
     grid-template-areas:
       'a a'

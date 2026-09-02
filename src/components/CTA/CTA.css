@@ -1,6 +1,6 @@
 .cta {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   min-height: 460px;
   scroll-margin-top: 90px;
 }
@@ -14,7 +14,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent 65%, var(--color-green-dark) 100%);
+  background: linear-gradient(90deg, transparent 65%, var(--color-wine-dark) 100%);
 }
 
 .cta__photo img {
@@ -24,7 +24,7 @@
 }
 
 .cta__panel {
-  background: var(--color-green-dark);
+  background: var(--color-wine-dark);
   padding: var(--space-2xl) var(--space-xl);
   display: flex;
   flex-direction: column;
@@ -79,7 +79,7 @@
     min-height: 260px;
   }
   .cta__photo::after {
-    background: linear-gradient(180deg, transparent 60%, var(--color-green-dark) 100%);
+    background: linear-gradient(180deg, transparent 60%, var(--color-wine-dark) 100%);
   }
   .cta__panel {
     padding: var(--space-xl) var(--space-lg);

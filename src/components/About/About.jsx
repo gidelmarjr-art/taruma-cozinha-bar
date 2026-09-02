@@ -1,15 +1,16 @@
+import TextBlockAnimation from '../TextBlockAnimation/TextBlockAnimation'
 import './About.css'
 
 const PILLARS = [
   {
     label: 'Cozinha',
     title: 'Receitas de família, porção pra dividir',
-    text: 'Do escondidinho ao camarão empanado, o cardápio é pensado pra mesa cheia — porções generosas e um clima de casa, mesmo quando o salão está lotado.',
+    text: 'Do escondidinho ao camarão empanado, o cardápio é pensado pra mesa cheia 🔥 porções generosas e um clima de casa, mesmo quando o salão está lotado.',
   },
   {
     label: 'Bar',
     title: 'Coquetéis autorais em cada unidade',
-    text: 'Cada casa tem sua própria cartela de drinks, feita pra combinar com o clima do bairro — do clássico ao autoral.',
+    text: 'Cada casa tem sua própria cartela de drinks, feita pra combinar com o clima do bairro 🔥 do clássico ao autoral.',
   },
   {
     label: 'Ocasião',
@@ -25,9 +26,11 @@ function About() {
         <div className="about__intro">
           <div className="section-head about__head">
             <span className="eyebrow">Sobre a casa</span>
-            <h2>Um bar de bairro com alma de cozinha de casa</h2>
+            <TextBlockAnimation blockColor="var(--color-gold)">
+              <h2>Um bar de bairro com alma de cozinha de casa</h2>
+            </TextBlockAnimation>
             <p>
-              O Tarumã nasceu no Sudoeste e ganhou uma segunda casa no Gama —
+              O Tarumã nasceu no Sudoeste e ganhou uma segunda casa no Gama 🔥
               duas unidades com a mesma essência: comida de conforto, drinks bem
               feitos e um ambiente acolhedor pra ficar depois do prato vazio.
             </p>

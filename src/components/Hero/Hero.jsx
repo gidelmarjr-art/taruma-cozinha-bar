@@ -1,3 +1,4 @@
+import TextBlockAnimation from '../TextBlockAnimation/TextBlockAnimation'
 import './Hero.css'
 
 function Hero() {
@@ -6,13 +7,15 @@ function Hero() {
       <div className="container hero__grid">
         <div className="hero__content">
           <span className="eyebrow">Brasília · Sudoeste &amp; Gama</span>
-          <h1 className="hero__title">
-            Gastronomia contemporânea,
-            <span> drinks autorais.</span>
-          </h1>
+          <TextBlockAnimation blockColor="var(--color-wine)" animateOnScroll={false} delay={0.15}>
+            <h1 className="hero__title">
+              Gastronomia contemporânea,
+              <span> drinks autorais.</span>
+            </h1>
+          </TextBlockAnimation>
           <p className="hero__lead">
             Duas unidades, uma só mesa: cardápio, drinks, reservas e delivery
-            do Tarumã reunidos aqui — sem precisar procurar em cinco lugares
+            do Tarumã reunidos aqui 🔥 sem precisar procurar em cinco lugares
             diferentes.
           </p>
           <div className="hero__actions">

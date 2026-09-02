@@ -41,7 +41,7 @@ function AdminLogin() {
 
         {!isSupabaseConfigured && (
           <p className="admin-auth__warning">
-            Supabase não configurado — o login está desabilitado neste ambiente. Veja o README.
+            Supabase não configurado 🔥 o login está desabilitado neste ambiente. Veja o README.
           </p>
         )}
 
