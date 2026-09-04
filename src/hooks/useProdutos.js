@@ -43,7 +43,9 @@ export function useProdutos(unidadeId, { apenasFavoritos = false } = {}) {
     query.then(({ data, error }) => {
       if (!active) return
       if (error) {
-        setProdutos(seedProdutos.filter((p) => p.unidade_id === unidadeId).map(withCategoria))
+        // eslint-disable-next-line no-console
+        console.error('[Tarumã] Erro ao buscar produtos no Supabase:', error.message, error)
+        setProdutos([])
       } else {
         setProdutos(data)
       }

@@ -319,6 +319,14 @@
   color: #a3321c;
 }
 
+.admin-form__error--geral {
+  background: rgba(163, 50, 28, 0.08);
+  border: 1px solid rgba(163, 50, 28, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  margin: 0;
+}
+
 .admin-form__preview {
   width: 96px;
   height: 96px;

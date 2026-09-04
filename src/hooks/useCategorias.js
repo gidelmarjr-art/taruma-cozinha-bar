@@ -18,6 +18,10 @@ export function useCategorias() {
       .order('ordem', { ascending: true })
       .then(({ data, error }) => {
         if (!active) return
+        if (error) {
+          // eslint-disable-next-line no-console
+          console.error('[Tarumã] Erro ao buscar categorias no Supabase:', error.message, error)
+        }
         setCategorias(error ? seedCategorias : data)
         setLoading(false)
       })

@@ -84,6 +84,24 @@ direto `https://wa.me/55SEUNUMERO`.
 4. Deploy. O `vercel.json` já está configurado para o roteamento
    (`/admin`, `/admin/login`) funcionar corretamente em produção.
 
+## ⚠️ Já tem um site publicado? Rode a migração de categorias
+
+Se você já criou o projeto Supabase e rodou o `schema.sql` **antes** desta
+atualização, sua tabela `categorias` não tem a coluna `tipo` (comida/drink)
+nem a taxonomia completa (21 categorias) — isso faz a página `/cardapio`
+aparecer vazia (sem pills de categoria, sem produtos) mesmo com pratos
+cadastrados no admin, porque o filtro de tipo nunca bate.
+
+**Solução:** abra o SQL Editor do Supabase e rode o arquivo
+[`supabase/migration-tipo-categorias.sql`](./supabase/migration-tipo-categorias.sql)
+uma vez. Ele é seguro — não apaga nada, só adiciona a coluna que falta e as
+categorias novas, preservando os produtos que você já cadastrou.
+
+Se depois de rodar isso ainda tiver algo não aparecendo, abra o Console do
+navegador (F12) na página `/cardapio` — os hooks agora registram qualquer
+erro do Supabase ali com o prefixo `[Tarumã]`, então dá pra ver a causa
+exata em vez de só uma tela vazia.
+
 ## Estrutura do projeto
 
 ```

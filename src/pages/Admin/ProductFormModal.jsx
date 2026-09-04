@@ -14,7 +14,7 @@ const VAZIO = {
   disponivel: true,
 }
 
-function ProductFormModal({ unidadeNome, categorias, produtoEditando, onSalvar, onCancelar, salvando }) {
+function ProductFormModal({ unidadeNome, categorias, produtoEditando, onSalvar, onCancelar, salvando, erro }) {
   const [form, setForm] = useState(produtoEditando ? { ...VAZIO, ...produtoEditando } : VAZIO)
   const [imagemTab, setImagemTab] = useState('upload')
   const [enviandoImagem, setEnviandoImagem] = useState(false)
@@ -201,6 +201,12 @@ function ProductFormModal({ unidadeNome, categorias, produtoEditando, onSalvar, 
               Disponível no site
             </label>
           </div>
+
+          {erro && (
+            <p className="admin-form__error admin-form__error--geral">
+              Não foi possível salvar: {erro}
+            </p>
+          )}
 
           <div className="admin-form__actions">
             <button className="btn btn-primary" type="submit" disabled={salvando || enviandoImagem}>

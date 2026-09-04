@@ -20,8 +20,10 @@ export function useUnidades() {
       .then(({ data, error: fetchError }) => {
         if (!active) return
         if (fetchError) {
+          // eslint-disable-next-line no-console
+          console.error('[Tarumã] Erro ao buscar unidades no Supabase:', fetchError.message, fetchError)
           setError(fetchError)
-          setUnidades(seedUnidades) // nunca deixa a página quebrada por erro de rede
+          setUnidades(seedUnidades) // nunca deixa a página sem nenhuma unidade pra navegar
         } else {
           setUnidades(data)
         }

@@ -79,13 +79,21 @@ function ProdutosPanel({ unidadeId, unidadeNome, categorias }) {
   const { produtos, loading, criar, atualizar, excluir } = useAdminProdutos(unidadeId)
   const [editando, setEditando] = useState(null) // null = fechado, {} = novo, {...} = editando
   const [salvando, setSalvando] = useState(false)
+  const [erroSalvar, setErroSalvar] = useState(null)
 
   async function handleSalvar(dados) {
     setSalvando(true)
+    setErroSalvar(null)
     const payload = { ...dados, unidade_id: unidadeId }
     const resultado = editando?.id ? await atualizar(editando.id, payload) : await criar(payload)
     setSalvando(false)
-    if (!resultado.error) setEditando(null)
+    if (resultado.error) {
+      // eslint-disable-next-line no-console
+      console.error('[Tarumã] Erro ao salvar prato:', resultado.error)
+      setErroSalvar(resultado.error)
+    } else {
+      setEditando(null)
+    }
   }
 
   async function handleExcluir(produto) {
@@ -108,8 +116,12 @@ function ProdutosPanel({ unidadeId, unidadeNome, categorias }) {
           categorias={categorias}
           produtoEditando={editando.id ? editando : null}
           onSalvar={handleSalvar}
-          onCancelar={() => setEditando(null)}
+          onCancelar={() => {
+            setEditando(null)
+            setErroSalvar(null)
+          }}
           salvando={salvando}
+          erro={erroSalvar}
         />
       )}
 
