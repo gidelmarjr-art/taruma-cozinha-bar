@@ -9,13 +9,20 @@ import ProductFormModal from './ProductFormModal'
 import './Admin.css'
 
 function AdminDashboard() {
-  const { logout } = useAuth()
+  const { logout, unidadeRestritaId, perfilCarregado } = useAuth()
   const { unidades } = useUnidades()
   const { categorias } = useCategorias()
   const [unidadeId, setUnidadeId] = useState(null)
   const [aba, setAba] = useState('produtos')
 
-  const unidadeAtiva = unidadeId ? unidades.find((u) => u.id === unidadeId) : unidades[0]
+  // Login restrito: força a unidade dele, ignorando qualquer seleção manual.
+  // Enquanto o perfil ainda não carregou, não decide nada pra não "piscar"
+  // a unidade errada por um instante.
+  const unidadeAtiva = unidadeRestritaId
+    ? unidades.find((u) => u.id === unidadeRestritaId)
+    : unidadeId
+      ? unidades.find((u) => u.id === unidadeId)
+      : unidades[0]
   const unidadeIdAtiva = unidadeAtiva?.id
 
   return (
@@ -38,38 +45,51 @@ function AdminDashboard() {
       </header>
 
       <div className="admin__body container">
-        <div className="admin__toolbar">
-          <div className="admin__unit-select">
-            <span>Unidade:</span>
-            <select value={unidadeIdAtiva || ''} onChange={(e) => setUnidadeId(e.target.value)}>
-              {unidades.map((u) => (
-                <option key={u.id} value={u.id}>
-                  {u.nome}
-                </option>
-              ))}
-            </select>
-          </div>
+        {!perfilCarregado ? (
+          <p className="admin-panel__hint">Carregando...</p>
+        ) : (
+          <>
+            <div className="admin__toolbar">
+              {unidadeRestritaId ? (
+                <div className="admin__unit-select admin__unit-select--locked">
+                  <span>Unidade:</span>
+                  <strong>{unidadeAtiva?.nome}</strong>
+                </div>
+              ) : (
+                <div className="admin__unit-select">
+                  <span>Unidade:</span>
+                  <select value={unidadeIdAtiva || ''} onChange={(e) => setUnidadeId(e.target.value)}>
+                    {unidades.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.nome}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
-          <nav className="admin__tabs">
-            <button
-              className={aba === 'produtos' ? 'admin__tab admin__tab--active' : 'admin__tab'}
-              onClick={() => setAba('produtos')}
-            >
-              Cardápio
-            </button>
-            <button
-              className={aba === 'avaliacoes' ? 'admin__tab admin__tab--active' : 'admin__tab'}
-              onClick={() => setAba('avaliacoes')}
-            >
-              Avaliações
-            </button>
-          </nav>
-        </div>
+              <nav className="admin__tabs">
+                <button
+                  className={aba === 'produtos' ? 'admin__tab admin__tab--active' : 'admin__tab'}
+                  onClick={() => setAba('produtos')}
+                >
+                  Cardápio
+                </button>
+                <button
+                  className={aba === 'avaliacoes' ? 'admin__tab admin__tab--active' : 'admin__tab'}
+                  onClick={() => setAba('avaliacoes')}
+                >
+                  Avaliações
+                </button>
+              </nav>
+            </div>
 
-        {aba === 'produtos' && unidadeIdAtiva && (
-          <ProdutosPanel unidadeId={unidadeIdAtiva} unidadeNome={unidadeAtiva?.nome} categorias={categorias} />
+            {aba === 'produtos' && unidadeIdAtiva && (
+              <ProdutosPanel unidadeId={unidadeIdAtiva} unidadeNome={unidadeAtiva?.nome} categorias={categorias} />
+            )}
+            {aba === 'avaliacoes' && <AvaliacoesPanel />}
+          </>
         )}
-        {aba === 'avaliacoes' && <AvaliacoesPanel />}
       </div>
     </div>
   )

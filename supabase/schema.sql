@@ -6,8 +6,19 @@
 -- 2. Abra o SQL Editor do projeto e cole este arquivo inteiro
 -- 3. Rode. Isso cria as tabelas, políticas de segurança (RLS) e os dados
 --    iniciais das duas unidades.
--- 4. Depois, crie um usuário em Authentication > Users para logar no painel
---    admin (/admin/login) — qualquer usuário autenticado tem acesso de gestor.
+-- 4. Crie os usuários em Authentication > Users para logar no painel admin
+--    (/admin/login):
+--    - Seu login (dono): não precisa de nenhum passo extra — por padrão,
+--      todo usuário sem vínculo em `perfis_admin` enxerga as DUAS unidades.
+--    - Login de cada equipe: depois de criar o usuário em Authentication >
+--      Users, rode o SQL abaixo pra travar aquele login só na unidade dele
+--      (troque o e-mail e o slug da unidade):
+--
+--      insert into perfis_admin (id, unidade_id, nome)
+--      select u.id, un.id, 'Equipe Sudoeste'
+--      from auth.users u, unidades un
+--      where u.email = 'equipe-sudoeste@exemplo.com' and un.slug = 'sudoeste';
+--
 -- ============================================================================
 
 create extension if not exists pgcrypto;
@@ -81,6 +92,18 @@ create table if not exists reservas (
   created_at timestamptz not null default now()
 );
 
+-- Vincula cada login (auth.users) a uma unidade específica. Um usuário SEM
+-- linha aqui, ou com unidade_id = null, é "super admin" — enxerga e edita
+-- todas as unidades (é o caso do dono, por padrão, sem precisar de nenhuma
+-- configuração extra). Um usuário com unidade_id preenchido só enxerga e
+-- edita a unidade dele — usado pras equipes de cada casa.
+create table if not exists perfis_admin (
+  id uuid primary key references auth.users(id) on delete cascade,
+  unidade_id uuid references unidades(id),
+  nome text,
+  created_at timestamptz not null default now()
+);
+
 -- Índices úteis
 create index if not exists idx_produtos_unidade on produtos(unidade_id);
 create index if not exists idx_produtos_categoria on produtos(categoria_id);
@@ -88,7 +111,45 @@ create index if not exists idx_avaliacoes_produto on avaliacoes(produto_id);
 create index if not exists idx_reservas_unidade on reservas(unidade_id);
 
 -- ----------------------------------------------------------------------------
--- Row Level Security — leitura pública do que é público, escrita só logado
+-- Funções auxiliares de permissão
+-- ----------------------------------------------------------------------------
+
+-- Verdadeiro se o usuário logado pode gerenciar a unidade `alvo_unidade_id`:
+-- ou ele não tem restrição nenhuma (sem linha em perfis_admin, ou
+-- unidade_id nulo lá = super admin), ou a unidade dele é exatamente essa.
+create or replace function auth_unidade_permitida(alvo_unidade_id uuid)
+returns boolean
+language sql
+security definer
+stable
+as $$
+  select auth.role() = 'authenticated' and (
+    not exists (select 1 from perfis_admin where id = auth.uid())
+    or exists (
+      select 1 from perfis_admin
+      where id = auth.uid()
+      and (unidade_id is null or unidade_id = alvo_unidade_id)
+    )
+  );
+$$;
+
+-- Verdadeiro só para super admins (sem unidade fixa) — usado pra travar a
+-- edição de tabelas que não são específicas de uma unidade (categorias).
+create or replace function auth_super_admin()
+returns boolean
+language sql
+security definer
+stable
+as $$
+  select auth.role() = 'authenticated' and (
+    not exists (select 1 from perfis_admin where id = auth.uid())
+    or exists (select 1 from perfis_admin where id = auth.uid() and unidade_id is null)
+  );
+$$;
+
+-- ----------------------------------------------------------------------------
+-- Row Level Security — leitura pública do que é público, escrita por
+-- unidade (cada login só mexe na unidade dele, exceto super admin)
 -- ----------------------------------------------------------------------------
 
 alter table unidades enable row level security;
@@ -96,39 +157,61 @@ alter table categorias enable row level security;
 alter table produtos enable row level security;
 alter table avaliacoes enable row level security;
 alter table reservas enable row level security;
+alter table perfis_admin enable row level security;
 
--- Unidades: qualquer pessoa lê, só usuário logado (gerência) edita
+-- Unidades: qualquer pessoa lê; só super admin edita (endereço, horário
+-- etc. não são gerenciados pela equipe de uma unidade específica)
 create policy "unidades_select_publico" on unidades for select using (true);
 create policy "unidades_write_admin" on unidades for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  using (auth_super_admin()) with check (auth_super_admin());
 
--- Categorias: idem
+-- Categorias: idem — taxonomia é compartilhada entre as unidades
 create policy "categorias_select_publico" on categorias for select using (true);
 create policy "categorias_write_admin" on categorias for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  using (auth_super_admin()) with check (auth_super_admin());
 
--- Produtos: leitura pública só de itens disponíveis; gestão total pra admin
+-- Produtos: leitura pública só de itens disponíveis; gestão travada por
+-- unidade (a equipe do Sudoeste não mexe no cardápio do Gama, e vice-versa)
 create policy "produtos_select_publico" on produtos for select using (disponivel = true);
 create policy "produtos_write_admin" on produtos for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  using (auth_unidade_permitida(unidade_id)) with check (auth_unidade_permitida(unidade_id));
 
 -- Avaliações: qualquer pessoa pode enviar (insert), mas só vê as aprovadas;
--- admin vê e modera tudo
+-- admin vê e modera só as avaliações dos produtos da própria unidade
 create policy "avaliacoes_insert_publico" on avaliacoes for insert with check (true);
 create policy "avaliacoes_select_aprovadas" on avaliacoes for select using (aprovado = true);
 create policy "avaliacoes_admin_select_todas" on avaliacoes for select
-  using (auth.role() = 'authenticated');
+  using (exists (
+    select 1 from produtos p where p.id = avaliacoes.produto_id
+    and auth_unidade_permitida(p.unidade_id)
+  ));
 create policy "avaliacoes_admin_update" on avaliacoes for update
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  using (exists (
+    select 1 from produtos p where p.id = avaliacoes.produto_id
+    and auth_unidade_permitida(p.unidade_id)
+  ))
+  with check (exists (
+    select 1 from produtos p where p.id = avaliacoes.produto_id
+    and auth_unidade_permitida(p.unidade_id)
+  ));
 create policy "avaliacoes_admin_delete" on avaliacoes for delete
-  using (auth.role() = 'authenticated');
+  using (exists (
+    select 1 from produtos p where p.id = avaliacoes.produto_id
+    and auth_unidade_permitida(p.unidade_id)
+  ));
 
--- Reservas: qualquer pessoa pode criar (insert); só admin lê/gerencia
+-- Reservas: qualquer pessoa pode criar (insert); admin só lê/gerencia as
+-- reservas da própria unidade
 create policy "reservas_insert_publico" on reservas for insert with check (true);
 create policy "reservas_admin_select" on reservas for select
-  using (auth.role() = 'authenticated');
+  using (auth_unidade_permitida(unidade_id));
 create policy "reservas_admin_update" on reservas for update
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  using (auth_unidade_permitida(unidade_id)) with check (auth_unidade_permitida(unidade_id));
+
+-- Perfis admin: cada usuário só lê a própria linha (o vínculo em si é
+-- criado manualmente pelo dono via SQL Editor, não pelo app)
+create policy "perfis_admin_le_proprio" on perfis_admin for select
+  using (auth.uid() = id);
 
 -- ----------------------------------------------------------------------------
 -- Storage — bucket para fotos de produtos (público pra leitura)

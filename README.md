@@ -207,6 +207,39 @@ Depois de logar:
 - **Avaliações**: toda avaliação enviada pelos clientes chega pendente.
   Aqui a gerência aprova (passa a aparecer no site) ou exclui.
 
+### Login por unidade (equipes diferentes por casa)
+
+Cada unidade pode ter seu próprio login, restrito só àquela unidade — a
+equipe do Sudoeste não vê nem edita nada do Gama, e vice-versa. Isso é
+aplicado no banco (RLS), não só escondido na tela: mesmo que alguém tente
+mexer direto pela API, a restrição vale.
+
+**Seu login (dono) continua vendo as duas unidades, sem nenhum passo
+extra** — todo login sem vínculo na tabela `perfis_admin` é tratado como
+super admin.
+
+Pra criar um login travado numa unidade:
+
+1. Crie o usuário normalmente em **Authentication → Users** no Supabase
+   (e-mail e senha da equipe daquela casa).
+2. Rode no SQL Editor (trocando o e-mail e o slug da unidade):
+
+   ```sql
+   insert into perfis_admin (id, unidade_id, nome)
+   select u.id, un.id, 'Equipe Sudoeste'
+   from auth.users u, unidades un
+   where u.email = 'equipe-sudoeste@exemplo.com' and un.slug = 'sudoeste';
+   ```
+
+3. Pronto — esse login, ao entrar em `/admin`, já aparece travado na
+   unidade dele (sem dropdown pra trocar), e só vê/edita o cardápio e as
+   avaliações daquela casa.
+
+Se o seu projeto Supabase já existia antes desta atualização, rode antes
+o arquivo
+[`supabase/migration-login-por-unidade.sql`](./supabase/migration-login-por-unidade.sql)
+— ele adiciona essa trava sem afetar o que já está funcionando.
+
 ### Sobre o design do painel
 
 Foi pedido pra usar um componente de referência baseado em **shadcn/ui +
