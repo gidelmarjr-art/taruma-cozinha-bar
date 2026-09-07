@@ -87,7 +87,7 @@ function AdminDashboard() {
             {aba === 'produtos' && unidadeIdAtiva && (
               <ProdutosPanel unidadeId={unidadeIdAtiva} unidadeNome={unidadeAtiva?.nome} categorias={categorias} />
             )}
-            {aba === 'avaliacoes' && <AvaliacoesPanel />}
+            {aba === 'avaliacoes' && <AvaliacoesPanel unidadeId={unidadeIdAtiva} unidadeNome={unidadeAtiva?.nome} />}
           </>
         )}
       </div>
@@ -182,13 +182,13 @@ function ProdutosPanel({ unidadeId, unidadeNome, categorias }) {
   )
 }
 
-function AvaliacoesPanel() {
-  const { avaliacoes, loading, aprovar, ocultar, excluir } = useAdminAvaliacoes()
+function AvaliacoesPanel({ unidadeId, unidadeNome }) {
+  const { avaliacoes, loading, aprovar, ocultar, excluir } = useAdminAvaliacoes(unidadeId)
 
   return (
     <div className="admin-panel">
       <div className="admin-panel__head">
-        <h2>Avaliações</h2>
+        <h2>Avaliações 🔥 {unidadeNome}</h2>
       </div>
       <p className="admin-panel__hint admin-panel__hint--intro">
         Toda avaliação enviada pelo cliente já aparece publicada no site na hora — não precisa
