@@ -216,6 +216,10 @@
   font-size: 0.9rem;
 }
 
+.admin-panel__hint--intro {
+  margin-bottom: var(--space-md);
+}
+
 /* ---------- Modal de produto ---------- */
 .admin-modal__backdrop {
   position: fixed;

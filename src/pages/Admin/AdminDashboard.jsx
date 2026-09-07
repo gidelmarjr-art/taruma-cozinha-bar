@@ -190,6 +190,10 @@ function AvaliacoesPanel() {
       <div className="admin-panel__head">
         <h2>Avaliações</h2>
       </div>
+      <p className="admin-panel__hint admin-panel__hint--intro">
+        Toda avaliação enviada pelo cliente já aparece publicada no site na hora — não precisa
+        aprovar nada. Use "Ocultar" aqui se algum comentário precisar sair do ar.
+      </p>
 
       {loading && <p className="admin-panel__hint">Carregando avaliações...</p>}
       {!loading && avaliacoes.length === 0 && (
@@ -208,7 +212,7 @@ function AvaliacoesPanel() {
               {a.comentario && <p className="admin-table__comment">{a.comentario}</p>}
               <div className="admin-table__badges">
                 <span className={`admin-badge ${a.aprovado ? '' : 'admin-badge--off'}`}>
-                  {a.aprovado ? 'Aprovada' : 'Pendente'}
+                  {a.aprovado ? 'Visível no site' : 'Oculta'}
                 </span>
               </div>
             </div>
@@ -219,7 +223,7 @@ function AvaliacoesPanel() {
                 </button>
               ) : (
                 <button className="btn btn-primary" onClick={() => aprovar(a.id)}>
-                  Aprovar
+                  Publicar de novo
                 </button>
               )}
               <button className="btn btn-outline admin-table__delete" onClick={() => excluir(a.id)}>

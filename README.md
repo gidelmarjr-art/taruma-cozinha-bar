@@ -204,8 +204,15 @@ Depois de logar:
   (enviar arquivo → Supabase Storage, ou colar um link direto). Os três
   chips (Favorito da casa, Prato da semana, Disponível no site) controlam
   onde o prato aparece na landing page.
-- **Avaliações**: toda avaliação enviada pelos clientes chega pendente.
-  Aqui a gerência aprova (passa a aparecer no site) ou exclui.
+- **Avaliações**: toda avaliação enviada pelo cliente já aparece publicada
+  no site na hora, sem precisar de aprovação. O admin pode "Ocultar" uma
+  avaliação depois, se algum comentário precisar sair do ar (e "Publicar
+  de novo" se mudar de ideia).
+
+  ⚠️ Se seu projeto Supabase já existia antes desta atualização, rode
+  [`supabase/migration-avaliacao-auto-aprovada.sql`](./supabase/migration-avaliacao-auto-aprovada.sql)
+  no SQL Editor — isso muda o padrão pra publicar direto e já libera as
+  avaliações que estavam pendentes.
 
 ### Login por unidade (equipes diferentes por casa)
 

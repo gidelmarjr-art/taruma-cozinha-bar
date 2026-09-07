@@ -13,7 +13,7 @@ function Stars({ nota }) {
 }
 
 function QuickViewModal({ produto, unidade, onClose }) {
-  const { avaliacoes, loading } = useAvaliacoes(produto?.id)
+  const { avaliacoes, loading, refetch } = useAvaliacoes(produto?.id)
   const [form, setForm] = useState({ nome: '', nota: 5, comentario: '' })
   const [enviado, setEnviado] = useState(false)
   const [enviando, setEnviando] = useState(false)
@@ -45,6 +45,7 @@ function QuickViewModal({ produto, unidade, onClose }) {
     if (success) {
       setEnviado(true)
       setForm({ nome: '', nota: 5, comentario: '' })
+      refetch()
     }
   }
 
@@ -97,9 +98,7 @@ function QuickViewModal({ produto, unidade, onClose }) {
               </ul>
 
               {enviado ? (
-                <p className="quick-view__hint">
-                  Obrigado! Sua avaliação foi enviada e aparece aqui assim que for aprovada.
-                </p>
+                <p className="quick-view__hint">Obrigado! Sua avaliação foi publicada 🔥</p>
               ) : (
                 <form className="quick-view__form" onSubmit={handleSubmit}>
                   <input

@@ -75,7 +75,7 @@ create table if not exists avaliacoes (
   nome_cliente text not null,
   nota int not null check (nota between 1 and 5),
   comentario text,
-  aprovado boolean not null default false,
+  aprovado boolean not null default true,
   created_at timestamptz not null default now()
 );
 
